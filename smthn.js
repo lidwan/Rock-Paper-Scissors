@@ -7,11 +7,10 @@ const rockButton = document.createElement("button"); rockButton.textContent = "R
 const paperButton = document.createElement("button"); paperButton.textContent = "Paper";
 const scissorsButton = document.createElement("button"); scissorsButton.textContent = "Scissors";
 
-console.log(rockButton);
 
 const res = document.querySelector("#result");
 const details = document.querySelector("#details");
-const middleSection = document.querySelector(".middleSection");
+const buttons = document.querySelector(".buttons");
 
 const startGameButton = document.querySelector("#startGame"); 
 
@@ -40,9 +39,9 @@ function initializeGame () {
         playRound("scissors");
     });
 
-    middleSection.appendChild(rockButton);
-    middleSection.appendChild(paperButton);
-    middleSection.appendChild(scissorsButton);
+    buttons.appendChild(rockButton);
+    buttons.appendChild(paperButton);
+    buttons.appendChild(scissorsButton);
     
     
     res.textContent = "Choose rock, paper or scissors to start the first round!";
@@ -97,7 +96,7 @@ function playRound (humanChoice) {
     let computerChoice = calcComputerChoice();
 
     let roundWinner = calcRoundWinner(humanChoice, computerChoice);
-    details.textContent = `You choose ${humanChoice} and the computer choose ${computerChoice}.\n`;
+    details.textContent = `You chose ${humanChoice} and the computer chose ${computerChoice}.\n`;
 
     if(roundWinner == 1){
         humanScore++;
@@ -133,38 +132,7 @@ function stopGame(whoWon) {
         window.location.reload();
     });
     restartGame.textContent = "Click to restart the game";
-    middleSection.appendChild(restartGame);
+    buttons.appendChild(restartGame);
     
     whoWon == 1 ? res.textContent = `You Won the Game!` : res.textContent = `You Lost the Game!`;
 }
-
-
-//function to play the game, first to reach 5 points wins
-// function playGame() {
-//     playRound();
-    
-//     while(humanScore < 5 && computerScore < 5) {
-    //        console.log(`Scores after round ${rounds} are, Human: ${humanScore} and computer: ${computerScore} get ready for the next round!`);
-//        playRound();
-//     }
-//     console.log(`%cScores after round ${rounds} are, Human: ${humanScore} and computer: ${computerScore}, meaning..`, "font-size: large;");
-//     humanScore === 5 ? console.log("%c\ncongrats! You won the game!", "color: green; font-size: large") : console.log("%c\nYou lost the game!", "color: red; font-size: large");
-// }
-
-// //function to get human's choice
-// function getHumanChoice() {
-
-//     //first prompt, dont want to bother user with waring if they choose a valid input.
-//     let choice = prompt("Choose ur next move!, rock, paper or scissors?");
-
-//     //converting to lowercase to make it case insensitive
-//     choice = choice.toLowerCase();
-    
-//     while(choice != "rock" && choice != "paper" && choice != "scissors"){
-//         console.warn("You must choose rock, paper or scissors");
-//         choice = prompt("Choose ur next move!, rock, paper or scissors?");
-//         choice = choice.toLowerCase();
-//     }
-
-//     return choice;
-// }
