@@ -1,25 +1,58 @@
 //rock, paper, scissors!
-
-//initializing global variables
-let rounds = 0;
+let rounds = 1;
 let humanScore = 0;
 let computerScore = 0;
 
-const rockButton = document.querySelector("#rockButton");
-rockButton.addEventListener("click", () => {
-    playRound("rock");
+const rockButton = document.createElement("button"); rockButton.textContent = "Rock";
+const paperButton = document.createElement("button"); paperButton.textContent = "Paper";
+const scissorsButton = document.createElement("button"); scissorsButton.textContent = "Scissors";
+
+console.log(rockButton);
+
+const res = document.querySelector("#result");
+const details = document.querySelector("#details");
+const middleSection = document.querySelector(".middleSection");
+
+const startGameButton = document.querySelector("#startGame"); 
+
+startGameButton.addEventListener("click", () => {
+    initializeGame();
 });
 
-const paperButton = document.querySelector("#paperButton");
-paperButton.addEventListener("click", () => {
-    playRound("paper");
-});
 
-const scissorsButton = document.querySelector("#scissorsButton");
-scissorsButton.addEventListener("click", () => {
-    playRound("scissors");
-});
+function initializeGame () {
+    startGameButton.remove();
+    document.querySelector("#instructions").remove();
+    rounds = 1;
+    humanScore = 0;
+    computerScore = 0;
 
+    
+    rockButton.addEventListener("click", () => {
+        playRound("rock");
+    });
+
+    paperButton.addEventListener("click", () => {
+        playRound("paper");
+    });
+
+    scissorsButton.addEventListener("click", () => {
+        playRound("scissors");
+    });
+
+    middleSection.appendChild(rockButton);
+    middleSection.appendChild(paperButton);
+    middleSection.appendChild(scissorsButton);
+    
+    
+    res.textContent = "Choose rock, paper or scissors to start the first round!";
+    details.textContent = "";
+}
+
+
+function displayResDiv() {
+    res.textContent = `Scores after round ${rounds}:- Human (you): ${humanScore} Computer: ${computerScore}`;
+}
 
 //function to calculate computer's choice 
 function calcComputerChoice() {
@@ -64,24 +97,46 @@ function playRound (humanChoice) {
     let computerChoice = calcComputerChoice();
 
     let roundWinner = calcRoundWinner(humanChoice, computerChoice);
-    console.log(`You choose ${humanChoice} and the computer choose ${computerChoice}.`);
+    details.textContent = `You choose ${humanChoice} and the computer choose ${computerChoice}.\n`;
 
     if(roundWinner == 1){
         humanScore++;
-        console.log("Congrats! You won this round.");
-        tie = false;
+         details.textContent += "Congrats! You won this round.\n";
     }
     else if(roundWinner == 2){
         computerScore++;
-        console.log("noo! computer won this round, get it next time!");
-        tie = false;
+         details.textContent += "noo! computer won this round, get it next time!\n";
     }
     else {
-        console.log("It's a Tie!, try again.");
+         details.textContent += "It's a Tie!, choose again.\n"      ;
     }
+    displayResDiv();
     rounds++;
+
+    if(humanScore == 5) {
+        console.log("stop game");
+        stopGame(1);
+    }
+    else if(computerScore == 5) {
+        stopGame(2);
+    }
 }
 
+function stopGame(whoWon) {
+    rockButton.remove();
+    paperButton.remove();
+    scissorsButton.remove();
+    res.textContent = ``;
+    details.remove();
+    const restartGame = document.createElement("button");
+    restartGame.addEventListener("click", () => {
+        window.location.reload();
+    });
+    restartGame.textContent = "Click to restart the game";
+    middleSection.appendChild(restartGame);
+    
+    whoWon == 1 ? res.textContent = `You Won the Game!` : res.textContent = `You Lost the Game!`;
+}
 
 
 //function to play the game, first to reach 5 points wins
